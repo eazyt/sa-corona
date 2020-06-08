@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plotting COVID-19</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"> -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+    />
+    <!-- MDBootstrap flags -->
+    <link href="css-flags/addons/flag.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css"
+    />
+  </head>
+
+  <body>
+     <div class="wrapper">
+    <div>
+        <header>
+          <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <a href="graphs.html" class="navbar-brand"><i class="south africa flag"></i>SA - COVID-19 tracker</a>
+            <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarContent"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav class="collapse navbar-collapse" id="navbarContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a href="graphs.html" class="nav-link">Overview Stats</a>
+                </li>
+                <li class="nav-item">
+                  <a href="vq6tycml.html" class="nav-link">Detailed Stats</a>
+                </li>
+                <li class="nav-item">
+                  <a href="dashBoard.html" class="nav-link">Global Stats</a>
+                </li>
+                <li class="nav-item">
+                  <a href="https://news.google.com/search?q=covid-19&hl=en-ZA&gl=ZA&ceid=ZA:en" target="_blank" rel="noopener noreferrer" class="nav-link">Latest News</a>
+                </li>
+              </ul>
+            </nav>
+          </nav>
+        </header>
+                
+
+      
+        <div class="body-content">
+          <!-- header section start-->
+
+          <!-- header section end-->
+
+          <!-- Stats Data Here -->
+          <div class="container-fluid pt-5">
+              <h4 class="header-title pb-3">World Stats</h4> 
+              <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="row">
+    
+                        <div class="col-lg-4 col-sm-4">
+                           <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                      <div class="text-center"><i class="fas fa-hospital-user fa-2x"></i></div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <h2 class="m-0" id="GL_NewConfirmed"></h2>
+                                        <p>New Confirmed</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+    
+                        <div class="col-lg-4 col-sm-4">
+                            <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                        <div class="text-center"><i class="fas fa-heartbeat fa-2x"></i></div>
+                                    </div>
+          
+                                    <div class="col-6">
+                                        <h2 class="m-0" id="GL_NewDeaths"></h2>
+                                        <p>New Deaths</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+    
+                        <div class="col-lg-4 col-sm-4">
+                            <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                        <div class="text-center"><i class="fas fa-users fa-2x"></i></div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <h2 id="GL_NewRecovered" class="m-0"></h2>
+                                        <p>New Recovered</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+    
+                        <script>
+                          const api_url = "https://api.covid19api.com/summary";
+                          // const api_url = 'https://api.covid19api.com/total/country/south-africa/status/confirmed';
+                          async function getStats() {
+                            const response = await fetch(api_url);
+                            const data = await response.json();
+                            console.log(data);
+                            //  const date = data.Date;
+                            var date = data.Date;
+                            date = new Date(date).toUTCString();
+                            date = date
+                              .split(" ")
+                              .slice(0, 4)
+                              .join(" ");
+            
+                            // global
+                            const NewConfirmed = data.Global.NewConfirmed;
+                            const NewDeaths = data.Global.NewDeaths;
+                            const NewRecovered = data.Global.NewRecovered;
+            
+                            // global
+                            const TotalConfirmed = data.Global.TotalConfirmed;
+                            const TotalDeaths = data.Global.TotalDeaths;
+                            const TotalRecovered = data.Global.TotalRecovered;
+            
+                                
+                           
+                            document.getElementById("GL_TotalConfirmed").textContent = TotalConfirmed;
+                           
+                            document.getElementById("GL_TotalDeaths").textContent = TotalDeaths;
+                            
+                            document.getElementById("GL_TotalRecovered").textContent = TotalRecovered;
+                        
+                            document.getElementById("GL_NewConfirmed").textContent = NewConfirmed;
+    
+                            document.getElementById("GL_NewDeaths").textContent = NewDeaths;
+    
+                            document.getElementById("GL_NewRecovered").textContent = NewRecovered;
+    
+                            // document.getElementById("SA_Date").textContent = SA_Date;
+                          }
+            
+                          getStats();
+                        </script>
+                    </div>
+                </div>
+            </div><!--end row1-->
+    
+            <div class="row pt-2">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="row">
+    
+                        <div class="col-lg-4 col-sm-4">
+                           <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                      <div class="text-center"><i class="fas fa-hospital-user fa-2x"></i></div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <h2 class="m-0" id="GL_TotalConfirmed"></h2>
+                                        <p>Total Confirmed</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+    
+                        <div class="col-lg-4 col-sm-4">
+                            <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                        <div class="text-center"><i class="fas fa-heartbeat fa-2x"></i></div>
+                                    </div>
+          
+                                    <div class="col-6">
+                                        <h2 class="m-0" id="GL_TotalRecovered"></h2>
+                                        <p>Total Recovered</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+    
+                        <div class="col-lg-4 col-sm-4">
+                            <div class="card bg-white m-b-30">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-6">
+                                        <div class="text-center"><i class="fas fa-users fa-2x"></i></div>
+                                    </div>
+                                    <div class="col-6">
+                                        <h2 id="GL_TotalDeaths" class="m-0"></h2>
+                                        <p>Total Death Cases</p> 
+                                    </div>
+                                </div>
+                           </div> 
+                        </div>
+                      </div>
+                </div>
+            </div><!--end row2-->
+
+            <div class="row pt-5">
+                <!-- Map Data Here -->
+                <div class="col-lg-9 col-sm-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+                            <h5 class="header-title pb-3">World Map Stats</h5>           
+                            <!-- <div id="#" style="height: 360px;"></div>              -->
+                            <div class="snazzy-map">
+                              <div id="map" class="map" style="height: 410px;"></div>
+                              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjrCrVm7dolv6_lr3cpWFJqUqebGo15lQ"></script>
+                              <script type="module">
+                                import styles from "./styles.js";
+                                const $map = document.querySelector("#map");
+                                const map = new window.google.maps.Map($map, {
+                                  center: {
+                                    lat: 0,
+                                    lng: 0
+                                  },
+                                  zoom: 3,
+                                  styles
+                                });
+                                renderData();
+                                async function getData() {
+                                  const response = await fetch(
+                                    "https://wuhan-coronavirus-api.laeyoung.endpoint.ainize.ai/jhu-edu/latest"
+                                  );
+                                  const data = await response.json();
+                                  return data;
+                                }
+                  
+                                function renderExtraData({
+                                  confirmed,
+                                  deaths,
+                                  recovered,
+                                  provincestate,
+                                  countryregion
+                                }) {
+                                  return `
+                                      <div>
+                                          <p> <strong> ${provincestate} - ${countryregion}</strong></p>
+                                          <p> confirmed: ${confirmed}</p>
+                                          <p> deaths: ${deaths}</p>
+                                          <p> recovered: ${recovered}</p>
+                                          </div>
+                                          `;
+                                }
+                  
+                                const popup = new window.google.maps.InfoWindow();
+                                async function renderData() {
+                                  const data = await getData();
+                                  // console.log(data)
+                                  data.forEach(item => {
+                                    if (item.confirmed > 0) {
+                                      const marker = new window.google.maps.Marker({
+                                        position: {
+                                          lat: item.location.lat,
+                                          lng: item.location.lng
+                                        },
+                                        map
+                                      });
+                                      marker.addListener("click", () => {
+                                        popup.setContent(renderExtraData(item));
+                                        popup.open(map, marker);
+                                      });
+                                    }
+                                  });
+                                }
+                              </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Pie Data Here -->
+                <div class="col-lg-3 col-sm-12">
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Top Deaths Stats</h4>
+                  </div>
+                  <div class="card m-b-30">
+                    <div class="card-body">                                    
+                      <!-- NEWS PIE CHART GOES HERE -->
+                      <div id="pie-chart" class="bottom" style="height: 410px;">
+                        <!-- <h1>pie chart</h1> -->
+                        <canvas id="myPieChart"></canvas>
+
+                        <script src="../jquery-3.4.1.min.js"></script>
+                        <script>
+                          const USA_DEATHS = [];
+                          const UK_DEATHS = [];
+                          const GER_DEATHS = [];
+                          const ITALY_DEATHS = [];
+                          const SA_DEATHS = [];
+                          const CHINA_DEATHS = [];
+
+                          myPieChart();
+                          async function myPieChart() {
+                            await getPieStats();
+                            var ctx = document
+                              .getElementById("myPieChart")
+                              .getContext("2d");
+                              ctx.height = 500;
+                            let colorHex = ["#5d0483", "#a0130c", "#c40792", "#dfcb23", "#49ca13", "#43AABB",  "#3d945a",  "#253D5B", "#EFCA08",];
+
+                            const myPieChart = new Chart(ctx, {
+                              type: "pie",
+                              data: {
+                                // labels: countryName,
+                                datasets: [
+                                  {
+                                    data: [USA_DEATHS, UK_DEATHS, GER_DEATHS, ITALY_DEATHS, SA_DEATHS, CHINA_DEATHS],
+
+                                    backgroundColor: colorHex
+
+                                  }
+                                ],
+                                labels: ["USA", "UK", "GER", "ITALY","SA", "CHINA"]
+
+                              },
+                              options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                title: {
+                                  display: true,
+                                  // text: "World Statistics"
+                                },
+                                tooltips: {
+                                  // mode: "dataset",
+                                },
+                                legend: {
+                                  onHover: function (e) {
+                                    e.target.style.cursor = "pointer";
+                                  },
+                                },
+                                hover: {
+                                  onHover: function (e) {
+                                    var point = this.getElementAtEvent(e);
+                                    if (point.length) e.target.style.cursor = "pointer";
+                                    else e.target.style.cursor = "default";
+                                  },
+                                },
+                              }
+                            });
+                          }
+
+                          async function getPieStats() {
+                            const response = await fetch(
+                              "https://api.covid19api.com/summary"
+                            );
+                            const data = await response.json();
+                            console.log(data);
+                            const countries = data.Countries;
+                            console.log(countries);
+
+                            var usa_obj = countries.find(function(el) {
+                              return el.Slug === "united-states";
+                            });
+                            console.log(usa_obj.TotalDeaths);
+                            // USA
+                            // console.log(countries[233].NewDeaths)
+                            // console.log(countries[233].NewRecovered)
+                            // console.log(countries[233].TotalConfirmed)
+                            const usa_deaths = usa_obj.TotalDeaths;
+                            // console.log(usa_deaths)
+                            USA_DEATHS.push(usa_deaths);
+                            // console.log(countries[233].TotalRecovered)
+                            // console.log(countries[233].NewConfirmed)
+
+                            // LONDON
+                            var uk_obj = countries.find(function(el) {
+                              return el.Slug === "united-kingdom";
+                            });
+                            // console.log(countries[232].NewDeaths)
+                            // console.log(countries[232].NewRecovered)
+                            // console.log(countries[232].TotalConfirmed)
+                            const uk_deaths = uk_obj.TotalDeaths;
+                            UK_DEATHS.push(uk_deaths);
+                            // console.log(countries[232].TotalRecovered)
+                            // console.log(countries[232].NewConfirmed)
+
+                            // Germany
+                            var germany_obj = countries.find(function(el) {
+                              return el.Slug === "germany";
+                            });
+                            // console.log(countries[81].NewDeaths)
+                            // console.log(countries[81].NewRecovered)
+                            // console.log(countries[81].TotalConfirmed)
+                            const germany_deaths = germany_obj.TotalDeaths;
+                            GER_DEATHS.push(germany_deaths);
+                            // console.log(countries[81].TotalRecovered)
+                            // console.log(countries[81].NewConfirmed)
+
+                            // Italy
+                            var italy_obj = countries.find(function(el) {
+                              return el.Slug === "italy";
+                            });
+                            // console.log(countries[108].NewDeaths)
+                            // console.log(countries[108].NewRecovered)
+                            // console.log(countries[108].TotalConfirmed)
+                            const italy_deaths = italy_obj.TotalDeaths;
+                            ITALY_DEATHS.push(italy_deaths);
+                            // console.log(countries[108].TotalRecovered)
+                            // console.log(countries[108].NewConfirmed)
+
+                            var sa_obj = countries.find(function(el) {
+                              return el.Slug === "south-africa";
+                            });
+                            const SA_deaths = sa_obj.TotalDeaths;
+                            SA_DEATHS.push(SA_deaths);
+
+                            // China
+                            var china_obj = countries.find(function(el) {
+                              return el.Slug === "china";
+                            });
+                            const ChinaDeaths = china_obj.TotalDeaths;
+                            CHINA_DEATHS.push(ChinaDeaths)
+                          }
+
+                          getPieStats();
+                          console.log(SA_DEATHS);
+                        </script>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- rolling data here -->
+            <div class="row pt-5">
+              <!-- <div class="col-md-12 mb-3 pt-5"> -->
+              <div class="col-lg-12 col-sm-12 pt-5">
+                <div class="card mb-4 box-shadow">
+    
+                    <script>
+                      fetch("https://api.covid19api.com/summary").then(response => {
+                        response.json().then(data => {
+                          // console.log(data);
+                          if (data.Countries.length > 0) {
+                            var stat = "";
+                            data.Countries.forEach(item => {
+                              stat += "<tr>";
+                              stat += "<td>" + item.Country + "</td>";
+                              stat += "<td>" + item.NewConfirmed + "</td>";
+                              stat += "<td>" + item.TotalConfirmed + "</td>";
+                              stat += "<td>" + item.NewDeaths + "</td>";
+                              stat += "<td>" + item.TotalDeaths + "</td>";
+                              stat += "<td>" + item.NewRecovered + "</td>";
+                              stat += "<td>" + item.TotalRecovered + "</td></tr>";
+                            });
+                            document.getElementById("data").innerHTML = stat;
+                          }
+                        });
+                      });
+                    </script>
+          
+                    <!-- table data starts here -->
+                    <!-- <div class="table-header" class="bottom">
+                      <table class="table table-stripped">
+                        <thead id="navbar" >
+                          <tr>
+                            <th>Country</th>
+                            <th>NewConfirmed</th>
+                            <th>TotalConfirmed</th>
+                            <th>NewDeaths</th>
+                            <th>TotalDeaths</th>
+                            <th>NewRecovered</th>
+                            <th>TotalRecovered</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div> -->
+                    <div id="table-data">
+                      <table class="table table-stripped">
+                        <thead id="navbar" >
+                          <tr>
+                            <th>Country</th>
+                            <th>NewConfirmed</th>
+                            <th>TotalConfirmed</th>
+                            <th>NewDeaths</th>
+                            <th>TotalDeaths</th>
+                            <th>NewRecovered</th>
+                            <th>TotalRecovered</th>
+                          </tr>
+                        </thead>
+                        <tbody id="data"></tbody>
+                      </table>
+                    </div>
+                </div>
+              </div> 
+            </div>
+
+          </div>
+
+                           
+        </div>
+        <!-- body container -->
+
+        <!-- footer start here -->
+        <footer>
+          <div class="footer-social-links">
+            <h2>social media</h2>
+            <ul class="social-links-list">
+              <li>
+                <a
+                  href="https://www.facebook.com"
+                  class="facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-facebook  fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="twitter"
+                >
+                  <i class="fab fa-twitter fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.Instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="instagram"
+                >
+                  <i class="fab fa-instagram fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="linkedin"
+                >
+                  <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <p>&copy; 2020 created by Eazy_TSA</p>
+        </footer>
+
+
+      <!-- </div> -->
+            
+                    <!-- scroll animation here -->
+        <script type="text/javascript">
+          function ScrollDiv() {
+            if (
+              document.getElementById("table-data").scrollTop <
+              document.getElementById("table-data").scrollHeight -
+                document.getElementById("table-data").offsetHeight
+            ) {
+              -1;
+              document.getElementById("table-data").scrollTop =
+                document.getElementById("table-data").scrollTop + 1;
+            } else {
+              document.getElementById("table-data").scrollTop = 0;
+            }
+          }
+
+          setInterval(ScrollDiv, 50);
+        </script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+

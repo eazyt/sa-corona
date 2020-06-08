@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plotting COVID-19</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/modal-style.css" />
+    <link rel="stylesheet" href="css/menu.css" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"> -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+    />
+    <!-- MDBootstrap flags -->
+    <link href="css-flags/addons/flag.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css"
+    />
+
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a href="graphs.html" class="navbar-brand"
+          ><i class="south africa flag"></i>SA - COVID-19 tracker</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarContent"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="graphs.html" class="nav-link">Overview Stats</a>
+            </li>
+            <li class="nav-item">
+              <a href="vq6tycml.html" class="nav-link">Detailed Stats</a>
+            </li>
+            <li class="nav-item">
+              <a href="dashBoard.html" class="nav-link">Global Stats</a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="https://news.google.com/search?q=covid-19&hl=en-ZA&gl=ZA&ceid=ZA:en"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="nav-link"
+                >Latest News</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="container-fluid pt-5">
+        <h4 class="header-title pb-3">South African Stats</h4>
+        <div class="row pb-10">
+          <div class="col-lg-12 col-sm-12">
+            <div class="row">
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-hospital-user fa-2x"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <h2 class="m-0" id="SA_NewConfirmed"></h2>
+                      <p>New Confirmed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-heartbeat fa-2x"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <h2 class="m-0" id="SA_NewDeaths"></h2>
+                      <p>New Deaths</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-users fa-2x"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <h2 id="SA_NewRecovered" class="m-0"></h2>
+                      <p>New Recovered</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <script>
+                const api_url = "https://api.covid19api.com/summary";
+                // const api_url = 'https://api.covid19api.com/total/country/south-africa/status/confirmed';
+                async function getStats() {
+                  const response = await fetch(api_url);
+                  const data = await response.json();
+                  var date = data.Date;
+                  date = new Date(date).toUTCString();
+                  date = date.split(" ").slice(0, 4).join(" ");
+
+                  // South Africa
+
+                  var sa1_obj = data.Countries.find(function (el) {
+                    return el.Slug === "south-africa";
+                  });
+           
+                  const SA_NewConfirmed = sa1_obj.NewConfirmed;
+                  const SA_NewDeaths = sa1_obj.NewDeaths;
+                  const SA_NewRecovered = sa1_obj.NewRecovered;
+                  const SA_TotalConfirmed = sa1_obj.TotalConfirmed;
+                  const SA_TotalDeaths = sa1_obj.TotalDeaths;
+                  const SA_TotalRecovered = sa1_obj.TotalRecovered;
+
+                  document.getElementById(
+                    "SA_TotalConfirmed"
+                  ).textContent = SA_TotalConfirmed;
+
+                  document.getElementById(
+                    "SA_TotalDeaths"
+                  ).textContent = SA_TotalDeaths;
+
+                  document.getElementById(
+                    "SA_TotalRecovered"
+                  ).textContent = SA_TotalRecovered;
+
+                  document.getElementById(
+                    "SA_NewConfirmed"
+                  ).textContent = SA_NewConfirmed;
+
+                  document.getElementById(
+                    "SA_NewDeaths"
+                  ).textContent = SA_NewDeaths;
+
+                  document.getElementById(
+                    "SA_NewRecovered"
+                  ).textContent = SA_NewRecovered;
+
+                  // document.getElementById("date").textContent = date;
+                }
+
+                getStats();
+              </script>
+            </div>
+          </div>
+        </div>
+        <!--end row1-->
+
+        <div class="row">
+          <div class="col-lg-12 col-sm-12">
+            <div class="row">
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-hospital-user fa-2x"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <h2 class="m-0" id="SA_TotalConfirmed"></h2>
+                      <p>Total Confirmed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-heartbeat fa-2x"></i>
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <h2 class="m-0" id="SA_TotalRecovered"></h2>
+                      <p>Total Recovered</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-sm-4">
+                <div class="card bg-white m-b-30">
+                  <div class="row d-flex align-items-center">
+                    <div class="col-6">
+                      <div class="text-center">
+                        <i class="fas fa-users fa-2x"></i>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <h2 id="SA_TotalDeaths" class="m-0"></h2>
+                      <p>Total Death Cases</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end row2-->
+      </div>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <div class="row">
+        <h1>
+          For official information about Corona virus from DoH go to
+          http://sacoronavirus.co.za
+        </h1>
+      </div>
+
+      <div class="row pt-3">
+     
+        <!-- Eastern Cape -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">East Cape</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="ecChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/ecProvinces_tot_confirmed.js"></script>
+            </div>
+            <!-- <button type="button" class="btn btn-primary">Primary</button> -->
+          </div>
+          <button id="ec_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+  
+        </div>
+
+
+      
+
+
+
+
+
+        <!-- Limpopo -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">Limpopo</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="limpChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/limpopoProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="lp_modal-btn" class="button">Details</button> -->
+          <button id="lp_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+
+
+        <!-- Western Cape  -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">Western Cape</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="wcChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/wcProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="wc_modal-btn" class="button">Details</button> -->
+          <button id="wc_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+        <!-- Mpumalanga -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">Mpumalanga</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="mpChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/mpProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="mp_modal-btn" class="button">Details</button> -->
+          <button id="mp_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+        <!-- Northern Cape -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">North Cape</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="ncChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/ncProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="nc_modal-btn" class="button">Details</button> -->
+          <button id="nc_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+        <!-- Gauteng -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">Gauteng</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="gpChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/gpProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="gp_modal-btn" class="button">Details</button> -->
+          <button id="gp_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+        <!-- KwaZulu Natal -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">KwaZulu Natal</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="kznChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/kznProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="kzn_modal-btn" class="button">Details</button> -->
+          <button id="kzn_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+
+        <!-- Free State -->
+        <div class="col-md-6 mb-3">
+          <div class="card-header text-center">
+            <h4 class="my-0 font-weight-normal">Free State</h4>
+          </div>
+          <div class="card m-b-30">
+            <div class="card-body">
+              <canvas id="fsChart"></canvas>
+              <script src="../jquery-3.4.1.min.js"></script>
+              <script src="./js/fsProvinces_tot_confirmed.js"></script>
+            </div>
+          </div>
+          <!-- <button id="fs_modal-btn" class="button">Details</button> -->
+          <button id="fs_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+        </div>
+        
+        <!-- North West -->
+          <div class="col-md-6 mb-3">
+            <div class="card-header text-center">
+              <h4 class="my-0 font-weight-normal">North West</h4>
+            </div>
+
+            <div class="card m-b-30">
+              <div class="card-body">
+                <canvas id="nwChart"></canvas>
+                <script src="../jquery-3.4.1.min.js"></script>
+                <script src="./js/nwProvinces_tot_confirmed.js"></script>
+              </div>
+            </div>
+            <!-- <button id="nw_modal-btn" class="button">Details</button> -->
+            <button id="nw_modal-btn" type="button" class="button btn btn-primary bg-modal-gred-3 btn-animation">Details</button>
+          </div>
+
+  
+
+        <!-- ############################################----MODALS----######################################### -->
+
+          <!-- Limpopo -->
+        <div id="lp-modal" class="modal1">
+                
+          <div class="modal-content">
+
+              
+            <div class="col-12 mb-3">
+                <span class="closeBtn">&times;</span>
+                <div class="card-header text-center">
+                  <h4 class="my-0 font-weight-normal">Limpopo Stats</h4>
+                </div>
+
+                <div class="row">
+                  <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <div class="card pull-up">
+                                  <div class="card-content">
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col-12">
+                                                  <h2 class="mb-0">number of Testing in the region</h6>
+                                                  
+                                          
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+            
+                  </div> -->
+
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <div class="card pull-up">
+                                  <div class="card-content">
+                                      <div class="card-body">
+                                          <div class="row">
+                                      
+                                              <div class="col-12">
+                                                <div>
+                                                    <canvas id="lpChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                    <script src="./js/modal-graphs/limpopoProvinces_tot_confirmed_modal.js"></script>
+                                                </div>
+                                              </div>
+                                              <!-- end -->
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12">
+                              <div class="card pull-up">
+                                  <div class="card-content">
+                                      <div class="card-body">
+                                          <div class="row">
+                                              <div class="col-12">
+                                                  <div>
+                                                      <canvas id="lpChartModalDeath" style="width: 100px;height: 120px;"></canvas>
+
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+          
+                  </div>
+          
+                </div>
+              
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <!-- Western Cape -->
+        <div id="wc-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Western Cape</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="wcChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/wcProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="wcChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+    
+        <!-- Eastern Cape -->
+        <div id="ec-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Eastern Cape</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="ecChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/ecProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="ecChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+        <!-- Gauteng -->
+        <div id="gp-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Gauteng</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="gpChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/gpProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="gpChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+        <!-- Free State -->
+        <div id="fs-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Free State</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="fsChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/fsProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="fsChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+        <!-- KwaZulu Natal -->
+        <div id="kzn-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">KwaZulu Natal</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="kznChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/kznProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="kznChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+        
+        <!-- North West -->
+        <div id="nw-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">North West</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="nwChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/nwProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="nwChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+        <!-- Northern Cape -->
+        <div id="nc-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Northern Cape</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="ncChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/ncProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="ncChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+
+
+        <!-- Mpumalanga -->
+        <div id="mp-modal" class="modal1">
+          
+            <div class="modal-content">
+      
+                
+              <div class="col-12 mb-3">
+                  <span class="closeBtn">&times;</span>
+                  <div class="card-header text-center">
+                    <h4 class="my-0 font-weight-normal">Mpumalanga</h4>
+                  </div>
+      
+                  <div class="row">
+                    <!-- <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h2 class="mb-0">number of Testing in the region</h6>
+                                                    
+                                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+              
+                    </div> -->
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                        
+                                                <div class="col-12">
+                                                  <div>
+                                                      <canvas id="mpChartModalConfirmed" style="width: 100px;height: 150px;"></canvas>
+                                                      <script src="./js/modal-graphs/mpProvinces_tot_confirmed_modal.js"></script>
+                                                  </div>
+                                                </div>
+                                                <!-- end -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+      
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card pull-up">
+                                    <div class="card-content">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <canvas id="mpChartModalDeaths" style="width: 100px;height: 120px;"></canvas>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                    </div>
+            
+                  </div>
+                
+              </div>
+
+            </div>
+
+          
+        </div>
+      </div>
+      <footer>
+        <div class="footer-social-links">
+          <h2>social media</h2>
+          <ul class="social-links-list">
+            <li>
+              <a
+                href="https://www.facebook.com"
+                class="facebook"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fab fa-facebook fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="twitter"
+              >
+                <i class="fab fa-twitter fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.Instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="instagram"
+              >
+                <i class="fab fa-instagram fa-2x"></i>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="linkedin"
+              >
+                <i class="fab fa-linkedin fa-2x"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <p>&copy; 2020 created by Eazy_TSA</p>
+      </footer>
+    </div>
+    <script src="./js/modal-animation/wc-modal-animation.js"></script>
+    <script src="./js/modal-animation/lp-modal-animation.js"></script>
+    <script src="./js/modal-animation/mp-modal-animation.js"></script>
+    <script src="./js/modal-animation/nc-modal-animation.js"></script>
+    <script src="./js/modal-animation/nw-modal-animation.js"></script>
+    <script src="./js/modal-animation/kzn-modal-animation.js"></script>
+    <script src="./js/modal-animation/fs-modal-animation.js"></script>
+    <script src="./js/modal-animation/gp-modal-animation.js"></script>
+    <script src="./js/modal-animation/ec-modal-animation.js"></script>
+    
+
+    <!-- bootstrap CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plotting COVID-19</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"> -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+    />
+    <!-- MDBootstrap flags -->
+    <link href="css-flags/addons/flag.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+          <a href="graphs.html" class="navbar-brand"
+            ><i class="south africa flag"></i>SA - COVID-19 tracker</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarContent"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <nav class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a href="graphs.html" class="nav-link">Overview Stats</a>
+              </li>
+              <li class="nav-item">
+                <a href="vq6tycml.html" class="nav-link">Detailed Stats</a>
+              </li>
+              <li class="nav-item">
+                <a href="dashBoard.html" class="nav-link">Global Stats</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  href="https://news.google.com/search?q=covid-19&hl=en-ZA&gl=ZA&ceid=ZA:en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="nav-link"
+                  >Latest News</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </nav>
+      </header>
+      <!-- stats here -->
+
+      <!-- id="map-n-stats" -->
+      <div class="container">
+        <div class="row pt-3">
+
+          <!-- Confirmed vs Recoveries -->
+          <div class="col-md-6 mb-3">
+            <div class="card-header text-center">
+              <h4 class="my-0 font-weight-normal">Confirmed vs Recoveries</h4>
+            </div>
+
+            <div class="card m-b-30">
+              <div class="card-body">
+                <canvas id="myChart" height="400px"></canvas>
+                <script src="../jquery-3.4.1.min.js"></script>
+                <script src="./js/Main-Graphs-Page/confirmed-vs-recovered.js"></script>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Confirmed Cases -->
+          <div class="col-md-6 mb-3">
+            <div class="card-header text-center">
+              <h4 class="my-0 font-weight-normal">Daily Confirmed Cases</h4>
+            </div>
+
+            <div class="card m-b-30">
+              <div class="card-body">
+                <canvas id="myChart1" height="400px"></canvas>
+
+                <script src="../jquery-3.4.1.min.js"></script>
+                <script src="./js/Main-Graphs-Page/Daily-Confirmed-Cases.js"></script>
+              </div>
+            </div>
+          </div>
+
+          <!-- CORONA OFFICIAL WEBSITE -->
+          <div class="row col-md-12 mb-3">
+            <h1>
+              For official information about Corona virus from DoH go to
+              http://sacoronavirus.co.za
+            </h1>
+          </div>
+
+          <!-- Total Death Cases -->
+          <div class="col-md-6 mb-3">
+            <div class="card-header text-center">
+              <h4 class="my-0 font-weight-normal">Total Death Cases</h4>
+            </div>
+
+            <div class="card m-b-30">
+              <div class="card-body">
+                <!-- death graph -->
+                <div class="death-graph">
+                  <canvas id="deathChart1" height="400px"></canvas>
+
+                <script src="../jquery-3.4.1.min.js"></script>
+                <script src="./js/Main-Graphs-Page/Total-Deaths-Cases.js"></script>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <!-- Daily Death Cases -->
+          <div class="col-md-6 mb-3">
+            <div class="card-header text-center">
+              <h4 class="my-0 font-weight-normal">SA Daily Death Report</h4>
+            </div>
+
+            <div class="card m-b-30">
+              <div class="card-body">
+              <!-- bar side graph here -->
+              <div class="bar-graph-side">
+                <canvas id="myBarChart" height="400px"></canvas>
+
+                <script src="../jquery-3.4.1.min.js"></script>
+                <script src="./js/Main-Graphs-Page/Daily-Deaths-Report.js"></script>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- #################################################################################### -->
+        <!-- footer start here -->
+        <footer>
+          <div class="footer-social-links">
+            <h2>social media</h2>
+            <ul class="social-links-list">
+              <li>
+                <a
+                  href="https://www.facebook.com"
+                  class="facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="fab fa-facebook fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="twitter"
+                >
+                  <i class="fab fa-twitter fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.Instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="instagram"
+                >
+                  <i class="fab fa-instagram fa-2x"></i>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="linkedin"
+                >
+                  <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <p>&copy; 2020 created by Eazy_TSA</p>
+        </footer>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
