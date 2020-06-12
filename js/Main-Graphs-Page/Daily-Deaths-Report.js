@@ -93,7 +93,7 @@ async function getDeathStats() {
   const deaths_results = death_data_response.timeline.deaths;
   // console.log(deaths_results);
   const numOfDeaths = Object.entries(deaths_results);
-  // console.log(numOfDeaths);
+  console.log(numOfDeaths);
   // // newBarValue for the diff function
   // // let newBarValue = [];
   for (var i = 0; i < numOfDeaths.length; i++) {

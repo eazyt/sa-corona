@@ -1,0 +1,20 @@
+{
+  "name": "PortFolio",
+  "version": "1.0.0",
+  "description": "bootstrap 4 Resume",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "author": "Thabo",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "4.0.0-alpha.6",
+    "browser-sync": "^2.26.7",
+    "font-awesome": "^4.7.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.1",
+    "gulp-sass": "^4.1.0"
+  },
+  "devDependencies": {}
+}

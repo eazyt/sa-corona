@@ -162,6 +162,8 @@
                     // newBar is an Array of cases per day
                     // console.log(diff(newBarValue));
                     const val = diff(newBarValue);
+                    // the response data was lagging after calculating, push it forward with below line
+                    val.unshift('0');
                     // pushing newBar to Global variable to be accessed by chartjs
                     newBar.push(val);
                   }

@@ -45,6 +45,8 @@ async function getBarStats() {
     var date = entries[i][0];
     date = new Date(date).toUTCString();
     date = date.split(" ").slice(1, 4).join(" ");
+    // console.log(date)
+    // const myDate = date.unshift();
     newSideDate.push(date);
   }
   // function to get the difference between consective numbers in an array
@@ -56,6 +58,7 @@ async function getBarStats() {
   }
   // newBar is an Array of cases per day
   const val = diff(newBarValue);
+  val.unshift('0');
   // pushing newBar to Global variable to be accessed by chartjs
   newSideBar.push(val);
 }
