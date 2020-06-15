@@ -171,4 +171,4 @@
                   // console.log(newBar);
                   // console.log(newDate);
                   // console.log(newBarValue);
-                  // getStats();
+                  // getStats(); 
